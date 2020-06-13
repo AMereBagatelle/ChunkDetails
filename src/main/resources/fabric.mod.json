@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "chunkdetails",
+  "version": "${version}",
+  "name": "ChunkDetails",
+  "description": "Giving some useful info about chunks, such as loaded state",
+  "authors": [
+    "AMereBagatelle"
+  ],
+  "contact": {
+    "homepage": "amerebagatelle.github.io"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/chunkdetails/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "amerebagatelle.github.io.chunkdetails.client.ChunkDetailsClient"
+    ]
+  },
+  "mixins": [
+    "chunkdetails.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.7+build.201",
+    "minecraft": "1.15.2"
+  }
+}

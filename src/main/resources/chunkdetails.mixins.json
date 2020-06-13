@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "amerebagatelle.github.io.chunkdetails.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ChunkTicketMixin",
+    "CommandManagerMixin",
+    "ServerWorldMixin",
+    "ThreadedAnvilChunkStorageMixin"
+  ],
+  "client": [
+    "InGameHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
