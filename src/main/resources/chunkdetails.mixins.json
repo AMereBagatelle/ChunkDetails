@@ -6,7 +6,7 @@
     "ChunkTicketMixin",
     "CommandManagerMixin",
     "ServerWorldMixin",
-    "ThreadedAnvilChunkStorageMixin"
+    "ChunkTicketManagerMixin"
   ],
   "client": [
     "InGameHudMixin"

@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class LogChunkDetails {
-    public static ArrayList<ServerPlayerEntity> loggingPlayerList = new ArrayList<>();
+    public static ArrayList<String> loggingPlayerList = new ArrayList<>();
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralArgumentBuilder<ServerCommandSource> logChunk = literal("logChunk")
                 .executes(ctx -> {
-                    if(loggingPlayerList.contains(ctx.getSource().getPlayer())) {
-                        loggingPlayerList.remove(ctx.getSource().getPlayer());
+                    if(loggingPlayerList.contains(ctx.getSource().getPlayer().getName().asFormattedString())) {
+                        loggingPlayerList.remove(ctx.getSource().getPlayer().getName().asFormattedString());
                     } else {
-                        loggingPlayerList.add(ctx.getSource().getPlayer());
+                        loggingPlayerList.add(ctx.getSource().getPlayer().getName().asFormattedString());
                     }
                     return 1;
                 });
