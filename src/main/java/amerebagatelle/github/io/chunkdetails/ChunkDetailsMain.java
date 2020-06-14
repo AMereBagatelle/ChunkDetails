@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 
 public class ChunkDetailsMain implements ModInitializer {
-    public static final Identifier CHUNK_STATUS_RECIEVED_PACKET = new Identifier("chunkdetails", "chunkstatus");
+    public static final Identifier CHUNK_STATUS_RECIEVED_PACKET = new Identifier("chunkdetails/chunkstatus");
 
     public static ArrayList<String> currentlyLoadedChunks = new ArrayList<String>();
 
