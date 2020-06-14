@@ -21,5 +21,6 @@ public class ServerWorldMixin {
         if(this.server.getTicks()%200 == 0) {
             ChunkDetailsMain.currentlyLoadedChunks.clear();
         }
+        ChunkDetailsMain.server = server;
     }
 }

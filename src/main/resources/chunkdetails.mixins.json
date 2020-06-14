@@ -3,12 +3,13 @@
   "package": "amerebagatelle.github.io.chunkdetails.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ChunkTicketManagerMixin",
     "ChunkTicketMixin",
     "CommandManagerMixin",
-    "ServerWorldMixin",
-    "ChunkTicketManagerMixin"
+    "ServerWorldMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "InGameHudMixin"
   ],
   "injectors": {
