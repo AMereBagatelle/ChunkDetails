@@ -21,13 +21,14 @@ import java.io.IOException;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin {
-    @Inject(method = "onCustomPayload", at = @At("RETURN"))
+    @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
             if(packet.getChannel() == ChunkDetailsMain.CHUNK_STATUS_RECIEVED_PACKET) {
                 PacketByteBuf buf = packet.getData();
                 String chunkTicketType = buf.readString();
                 long chunkPosPacked = buf.readLong();
                 MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("Ticket of type " + chunkTicketType + " at chunk " + Integer.toString(ChunkPos.getPackedX(chunkPosPacked)) + " " + Integer.toString(ChunkPos.getPackedZ(chunkPosPacked))));
+                ci.cancel();
             }
     }
 }

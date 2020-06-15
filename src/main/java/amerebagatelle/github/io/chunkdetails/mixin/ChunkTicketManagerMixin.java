@@ -30,10 +30,12 @@ public class ChunkTicketManagerMixin {
             for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
                 ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText(chunkTicket.toString()), MessageType.SYSTEM);
             }
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            buf.writeString(chunkTicket.getType().toString());
-            buf.writeLong(((ChunkPos)((ChunkTicketMixin<?>)(Object)chunkTicket).getArgument()).toLong());
-            ChunkDetailsMain.server.getPlayerManager().sendToAll(new CustomPayloadS2CPacket(ChunkDetailsMain.CHUNK_STATUS_RECIEVED_PACKET, buf));
+            if(((ChunkTicketMixin<?>)(Object)chunkTicket).getArgument() instanceof ChunkPos) {
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeString(chunkTicket.getType().toString());
+                buf.writeLong(((ChunkPos) ((ChunkTicketMixin<?>) (Object) chunkTicket).getArgument()).toLong());
+                ChunkDetailsMain.server.getPlayerManager().sendToAll(new CustomPayloadS2CPacket(ChunkDetailsMain.CHUNK_STATUS_RECIEVED_PACKET, buf));
+            }
             ChunkDetailsMain.currentlyLoadedChunks.add(chunkTicket.toString());
         }
     }
