@@ -27,7 +27,7 @@ public class ChunkTicketManagerMixin {
     @Inject(method = "Lnet/minecraft/server/world/ChunkTicketManager;addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
     public <T> void addTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
         if(!ChunkDetailsMain.currentlyLoadedChunks.contains(chunkTicket.toString()) && ChunkDetailsMain.server != null) {
-            for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) { // TODO: Find a better way to get to the server
+            for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
                 ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText(chunkTicket.toString()), MessageType.SYSTEM);
             }
             PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
