@@ -1,6 +1,7 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
 import amerebagatelle.github.io.chunkdetails.ChunkDetailsMain;
+import amerebagatelle.github.io.chunkdetails.client.gui.ChunkLoadedListScreen;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,7 +28,7 @@ public class ClientPlayNetworkHandlerMixin {
                 PacketByteBuf buf = packet.getData();
                 String chunkTicketType = buf.readString();
                 long chunkPosPacked = buf.readLong();
-                MinecraftClient.getInstance().inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("Ticket of type " + chunkTicketType + " at chunk " + Integer.toString(ChunkPos.getPackedX(chunkPosPacked)) + " " + Integer.toString(ChunkPos.getPackedZ(chunkPosPacked))));
+                ChunkLoadedListScreen.loadedChunks.put(chunkTicketType, new ChunkPos(chunkPosPacked));
                 ci.cancel();
             }
     }
