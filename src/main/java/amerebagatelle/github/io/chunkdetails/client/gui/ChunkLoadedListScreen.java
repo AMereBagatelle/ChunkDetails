@@ -13,6 +13,7 @@ public class ChunkLoadedListScreen extends Screen {
     // NOTE:  The screen should also be sure to never try and get a list of chunks that doesn't exist
     // NOTE:  Implement server/client handshake alongside this screen
     public static LinkedHashMap<String, ChunkPos> loadedChunks = new LinkedHashMap<>();
+    public ChunkLoadedListWidget loadedListWidget;
 
     public ChunkLoadedListScreen() {
         super(new LiteralText("ActiveChunkTicketScreen"));
@@ -21,10 +22,14 @@ public class ChunkLoadedListScreen extends Screen {
     @Override
     public void init(MinecraftClient client, int width, int height) {
         super.init(client, width, height);
+        // ? Come back to these values, tweak them
+        loadedListWidget = new ChunkLoadedListWidget(client, width, height, 20, height-20, 20);
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
+        loadedListWidget.updateEntries(loadedChunks);
+        loadedListWidget.render(mouseX, mouseY, delta);
         super.render(mouseX, mouseY, delta);
     }
 }

@@ -1,9 +1,8 @@
 package amerebagatelle.github.io.chunkdetails.client;
 
-import amerebagatelle.github.io.chunkdetails.ChunkDetailsMain;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class ChunkDetailsClient implements ClientModInitializer {
