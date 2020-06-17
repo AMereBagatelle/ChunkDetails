@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.ChunkPos;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class ChunkLoadedListScreen extends Screen {
