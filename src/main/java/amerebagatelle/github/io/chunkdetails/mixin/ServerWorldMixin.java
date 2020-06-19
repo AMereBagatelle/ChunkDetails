@@ -1,6 +1,7 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
 import amerebagatelle.github.io.chunkdetails.ChunkDetailsMain;
+import amerebagatelle.github.io.chunkdetails.utils.ServerNetworkingManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Final;
@@ -21,6 +22,7 @@ public class ServerWorldMixin {
         if(this.server.getTicks()%400 == 0) {
             ChunkDetailsMain.currentlyLoadedChunks.clear();
         }
-        ChunkDetailsMain.server = server;
+        ServerNetworkingManager.INSTANCE.setServer(server);
+        ChunkDetailsMain.server = server; // TODO fix this monstrosity
     }
 }

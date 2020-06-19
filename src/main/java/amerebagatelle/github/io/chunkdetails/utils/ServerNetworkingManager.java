@@ -16,7 +16,11 @@ public class ServerNetworkingManager {
 
     public void sendCustomPayload(Identifier packetType, PacketByteBuf buf) {
         for (ServerPlayerEntity client : connectedClients) {
-            client.networkHandler.connection.send(new CustomPayloadS2CPacket(packetType, buf));
+            if(client.networkHandler.connection != null) {
+                client.networkHandler.connection.send(new CustomPayloadS2CPacket(packetType, buf));
+            } else {
+                connectedClients.remove(client);
+            }
         }
     }
 
