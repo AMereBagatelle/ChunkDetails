@@ -1,6 +1,6 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
-import amerebagatelle.github.io.chunkdetails.utils.NetworkingManager;
+import amerebagatelle.github.io.chunkdetails.utils.ServerNetworkingManager;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ public class ServerPlayNetworkHandlerMixin {
         CustomPayloadC2SPacketFake packetFake = (CustomPayloadC2SPacketFake)packet;
         if(packetFake.getChannel().getNamespace() == "chunkdetails") {
             // TODO: Call custom payload in ServerNetworkingManager
-            NetworkingManager.INSTANCE.processCustomPayload(packetFake);
+            ServerNetworkingManager.INSTANCE.processCustomPayload(packetFake);
         }
     }
 }

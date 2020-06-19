@@ -2,7 +2,7 @@ package amerebagatelle.github.io.chunkdetails.mixin;
 
 import amerebagatelle.github.io.chunkdetails.ChunkDetailsMain;
 import amerebagatelle.github.io.chunkdetails.command.LogChunkDetails;
-import amerebagatelle.github.io.chunkdetails.utils.NetworkingManager;
+import amerebagatelle.github.io.chunkdetails.utils.ServerNetworkingManager;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.MessageType;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
@@ -29,7 +29,7 @@ public class ChunkTicketManagerMixin {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeString(chunkTicket.getType().toString());
                 buf.writeLong(((ChunkPos) ((ChunkTicketFake<?>) (Object) chunkTicket).getArgument()).toLong());
-                ChunkDetailsMain.server.getPlayerManager().sendToAll(new CustomPayloadS2CPacket(NetworkingManager.CHUNK_STATUS_PACKET, buf));
+                ChunkDetailsMain.server.getPlayerManager().sendToAll(new CustomPayloadS2CPacket(ServerNetworkingManager.CHUNK_STATUS_PACKET, buf));
             }
             ChunkDetailsMain.currentlyLoadedChunks.add(chunkTicket.toString());
         }

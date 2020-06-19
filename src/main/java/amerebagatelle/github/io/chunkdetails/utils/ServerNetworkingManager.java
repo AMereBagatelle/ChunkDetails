@@ -9,8 +9,8 @@ import net.minecraft.util.PacketByteBuf;
 
 import java.util.ArrayList;
 
-public class NetworkingManager {
-    public static NetworkingManager INSTANCE = new NetworkingManager();
+public class ServerNetworkingManager {
+    public static ServerNetworkingManager INSTANCE = new ServerNetworkingManager();
     public MinecraftServer server;
     public ArrayList<ServerPlayerEntity> connectedClients = new ArrayList<>();
 
