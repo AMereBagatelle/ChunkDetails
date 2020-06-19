@@ -11,6 +11,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.ChunkPos;
 
+import java.util.Set;
+
 @Environment(EnvType.CLIENT)
 public class ClientNetworkingManager {
     public static ClientNetworkingManager INSTANCE = new ClientNetworkingManager();
@@ -42,11 +44,13 @@ public class ClientNetworkingManager {
     public void onChunkTicketRemove(PacketByteBuf buf) {
         long chunkPosPacked = buf.readLong();
         client.execute(() -> {
-            ChunkLoadedListScreen.loadedChunks.forEach((chunkPos, ticketType) -> {
-                if(chunkPos.equals(new ChunkPos(chunkPosPacked))) {
+            Set<ChunkPos> chunkPosSet = ChunkLoadedListScreen.loadedChunks.keySet();
+            for (ChunkPos chunkPos : chunkPosSet) {
+                if(new ChunkPos(chunkPosPacked).equals(chunkPos)) {
                     ChunkLoadedListScreen.loadedChunks.remove(chunkPos);
+                    break;
                 }
-            });
+            }
         });
 
     }
