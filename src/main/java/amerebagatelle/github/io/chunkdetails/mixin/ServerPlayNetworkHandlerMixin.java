@@ -10,12 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin {
-    @Inject(method = "onCustomPayload", at = @At("HEAD"))
+    @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadC2SPacket packet, CallbackInfo ci) {
         CustomPayloadC2SPacketFake packetFake = (CustomPayloadC2SPacketFake)packet;
         if(packetFake.getChannel().getNamespace() == "chunkdetails") {
             // TODO: Call custom payload in ServerNetworkingManager
             ServerNetworkingManager.INSTANCE.processCustomPayload(packetFake);
+            ci.cancel();
         }
     }
 }
