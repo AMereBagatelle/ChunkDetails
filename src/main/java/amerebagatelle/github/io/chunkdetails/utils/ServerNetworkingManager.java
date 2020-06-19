@@ -29,7 +29,7 @@ public class ServerNetworkingManager {
     }
 
     public void onHello(PacketByteBuf buf) {
-
+        connectedClients.add(server.getPlayerManager().getPlayer(buf.readUuid()));
     }
 
     public void setServer(MinecraftServer server) {
