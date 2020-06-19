@@ -26,14 +26,28 @@ public class ClientNetworkingManager {
 
     public void processCustomPayload(CustomPayloadS2CPacket packet) {
         Identifier channel = packet.getChannel();
-        if(channel == Packets.CHUNK_STATUS_PACKET) {
-            onChunkStatusUpdate(packet.getData());
+        if(channel == Packets.CHUNK_TICKET_ADD_PACKET) {
+            onChunkTicketAdd(packet.getData());
+        } else if(channel == Packets.CHUNK_TICKET_REMOVE_PACKET) {
+            onChunkTicketRemove(packet.getData());
         }
     }
 
-    public void onChunkStatusUpdate(PacketByteBuf buf) {
+    public void onChunkTicketAdd(PacketByteBuf buf) {
         String chunkTicketType = buf.readString();
         long chunkPosPacked = buf.readLong();
-        ChunkLoadedListScreen.loadedChunks.put(chunkTicketType, new ChunkPos(chunkPosPacked));
+        client.execute(() -> ChunkLoadedListScreen.loadedChunks.put(new ChunkPos(chunkPosPacked), chunkTicketType));
+    }
+
+    public void onChunkTicketRemove(PacketByteBuf buf) {
+        long chunkPosPacked = buf.readLong();
+        client.execute(() -> {
+            ChunkLoadedListScreen.loadedChunks.forEach((chunkPos, ticketType) -> {
+                if(chunkPos.equals(new ChunkPos(chunkPosPacked))) {
+                    ChunkLoadedListScreen.loadedChunks.remove(chunkPos);
+                }
+            });
+        });
+
     }
 }

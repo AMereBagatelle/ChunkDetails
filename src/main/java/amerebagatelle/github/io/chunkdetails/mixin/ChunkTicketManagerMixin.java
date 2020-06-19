@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ChunkTicketManagerMixin {
 
     @Inject(method = "Lnet/minecraft/server/world/ChunkTicketManager;addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
-    public <T> void addTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
-        if(!ChunkDetailsMain.currentlyLoadedChunks.contains(chunkTicket.toString()) && ChunkDetailsMain.server != null) {
+    public <T> void onAddTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
+        if(!ChunkDetailsMain.currentlyLoadedChunks.contains(position) && ChunkDetailsMain.server != null) {
             for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
                 ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText(chunkTicket.toString()), MessageType.SYSTEM);
             }
@@ -29,9 +29,17 @@ public class ChunkTicketManagerMixin {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeString(chunkTicket.getType().toString());
                 buf.writeLong(((ChunkPos) ((ChunkTicketFake<?>) (Object) chunkTicket).getArgument()).toLong());
-                ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_STATUS_PACKET, buf);
+                ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_ADD_PACKET, buf);
             }
-            ChunkDetailsMain.currentlyLoadedChunks.add(chunkTicket.toString());
+            ChunkDetailsMain.currentlyLoadedChunks.add(position);
         }
+    }
+
+    @Inject(method = "removeTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at = @At("TAIL"))
+    public void onRemoveTicket(long pos, ChunkTicket<?> ticket, CallbackInfo ci) {
+        ChunkDetailsMain.currentlyLoadedChunks.removeIf(currentlyLoadedChunk -> currentlyLoadedChunk == pos);
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        buf.writeLong(pos);
+        ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_REMOVE_PACKET, buf);
     }
 }

@@ -19,9 +19,6 @@ public class ServerWorldMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
-        if(this.server.getTicks()%400 == 0) {
-            ChunkDetailsMain.currentlyLoadedChunks.clear();
-        }
         ServerNetworkingManager.INSTANCE.setServer(server);
         ChunkDetailsMain.server = server; // TODO fix this monstrosity
     }

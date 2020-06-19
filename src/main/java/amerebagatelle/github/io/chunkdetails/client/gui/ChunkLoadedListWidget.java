@@ -8,7 +8,7 @@ import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.util.math.ChunkPos;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class ChunkLoadedListWidget extends EntryListWidget<ChunkLoadedListWidget.Entry> {
 
@@ -16,9 +16,9 @@ public class ChunkLoadedListWidget extends EntryListWidget<ChunkLoadedListWidget
         super(client, width, height, top, bottom, itemHeight);
     }
 
-    public void updateEntries(LinkedHashMap<String, ChunkPos> list) {
+    public void updateEntries(HashMap<ChunkPos, String> list) {
         this.clearEntries();
-        list.forEach((name, position) -> {
+        list.forEach((position, name) -> {
             this.addEntry(new LoadedChunkEntry(name, position));
         });
     }
