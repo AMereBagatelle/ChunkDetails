@@ -1,6 +1,5 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
-import amerebagatelle.github.io.chunkdetails.client.Minimap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -14,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InGameHudMixin {
     @Inject(method = "render", at = @At("TAIL"))
     public void onClientTick(float tickDelta, CallbackInfo ci) {
-        Minimap.INSTANCE.draw(10, 10, 64, 64);
+        //Minimap.INSTANCE.draw(10, 10, 64, 64);
     }
 }
