@@ -9,9 +9,6 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
-import net.minecraft.util.math.ChunkPos;
-
-import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public class ClientNetworkingManager {
@@ -38,20 +35,13 @@ public class ClientNetworkingManager {
     public void onChunkTicketAdd(PacketByteBuf buf) {
         String chunkTicketType = buf.readString();
         long chunkPosPacked = buf.readLong();
-        client.execute(() -> ChunkLoadedListScreen.loadedChunks.put(new ChunkPos(chunkPosPacked), chunkTicketType));
+        client.execute(() -> ChunkLoadedListScreen.loadedChunks.addTicket(chunkPosPacked, chunkTicketType));
     }
 
     public void onChunkTicketRemove(PacketByteBuf buf) {
         long chunkPosPacked = buf.readLong();
         client.execute(() -> {
-            Set<ChunkPos> chunkPosSet = ChunkLoadedListScreen.loadedChunks.keySet();
-            for (ChunkPos chunkPos : chunkPosSet) {
-                if(new ChunkPos(chunkPosPacked).equals(chunkPos)) {
-                    ChunkLoadedListScreen.loadedChunks.remove(chunkPos);
-                    break;
-                }
-            }
+            ChunkLoadedListScreen.loadedChunks.removeTicket(chunkPosPacked);
         });
-
     }
 }

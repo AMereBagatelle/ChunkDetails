@@ -21,9 +21,9 @@ public class ChunkTicketManagerMixin {
 
     @Inject(method = "Lnet/minecraft/server/world/ChunkTicketManager;addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
     public <T> void onAddTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
-        if(!ChunkDetailsMain.currentlyLoadedChunks.contains(position) && ChunkDetailsMain.server != null) {
+        if(!ChunkDetailsMain.currentlyLoadedChunks.hasTicket(position) && ChunkDetailsMain.server != null) {
             for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
-                ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText(chunkTicket.toString()), MessageType.SYSTEM);
+                ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText("Added: " + chunkTicket.toString()), MessageType.SYSTEM);
             }
             if(((ChunkTicketFake<?>)(Object)chunkTicket).getArgument() instanceof ChunkPos) {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
@@ -31,13 +31,18 @@ public class ChunkTicketManagerMixin {
                 buf.writeLong(((ChunkPos) ((ChunkTicketFake<?>) (Object) chunkTicket).getArgument()).toLong());
                 ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_ADD_PACKET, buf);
             }
-            ChunkDetailsMain.currentlyLoadedChunks.add(position);
+            ChunkDetailsMain.currentlyLoadedChunks.addTicket(position, chunkTicket.getType().toString());
         }
     }
 
     @Inject(method = "removeTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at = @At("TAIL"))
     public void onRemoveTicket(long pos, ChunkTicket<?> ticket, CallbackInfo ci) {
-        ChunkDetailsMain.currentlyLoadedChunks.removeIf(currentlyLoadedChunk -> currentlyLoadedChunk == pos);
+        if(ChunkDetailsMain.currentlyLoadedChunks.hasTicket(pos)) {
+            for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
+                ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText("Removed: " + ticket.toString()), MessageType.SYSTEM);
+            }
+        }
+        ChunkDetailsMain.currentlyLoadedChunks.removeTicketForLocation(pos);
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeLong(pos);
         ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_REMOVE_PACKET, buf);
