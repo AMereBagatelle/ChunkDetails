@@ -14,9 +14,6 @@
   "icon": "assets/chunkdetails/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "amerebagatelle.github.io.chunkdetails.client.ChunkDetailsClient"
-    ]
   },
   "mixins": [
     "chunkdetails.mixins.json"

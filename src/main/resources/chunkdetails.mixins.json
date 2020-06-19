@@ -3,9 +3,10 @@
   "package": "amerebagatelle.github.io.chunkdetails.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ChunkTicketFake",
     "ChunkTicketManagerMixin",
-    "ChunkTicketMixin",
     "CommandManagerMixin",
+    "ServerPlayNetworkHandlerMixin",
     "ServerWorldMixin"
   ],
   "client": [

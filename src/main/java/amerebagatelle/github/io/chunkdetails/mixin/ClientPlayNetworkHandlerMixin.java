@@ -1,7 +1,7 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
 import amerebagatelle.github.io.chunkdetails.client.gui.ChunkLoadedListScreen;
-import amerebagatelle.github.io.chunkdetails.utils.Packets;
+import amerebagatelle.github.io.chunkdetails.utils.NetworkingManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayNetworkHandlerMixin {
     @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
-            if(packet.getChannel() == Packets.CHUNK_STATUS_RECIEVED_PACKET) {
+            if(packet.getChannel() == NetworkingManager.CHUNK_STATUS_PACKET) {
                 PacketByteBuf buf = packet.getData();
                 String chunkTicketType = buf.readString();
                 long chunkPosPacked = buf.readLong();
