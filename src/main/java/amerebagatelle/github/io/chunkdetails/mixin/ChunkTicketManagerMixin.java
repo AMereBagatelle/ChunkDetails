@@ -42,7 +42,7 @@ public class ChunkTicketManagerMixin {
                 ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendChatMessage(new LiteralText("Removed: " + ticket.toString()), MessageType.SYSTEM);
             }
         }
-        ChunkDetailsMain.currentlyLoadedChunks.removeTicketForLocation(pos);
+        ChunkDetailsMain.currentlyLoadedChunks.removeTicket(pos);
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeLong(pos);
         ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_REMOVE_PACKET, buf);

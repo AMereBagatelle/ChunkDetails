@@ -16,14 +16,6 @@ public class ChunkTicketList extends LinkedHashMap<ChunkPos, String> {
         this.remove(new ChunkPos(pos));
     }
 
-    public void removeTicketForLocation(long pos) {
-        this.forEach((chunkPos, ticketType) -> {
-            if(pos == chunkPos.toLong()) {
-                this.removeTicket(pos);
-            }
-        });
-    }
-
     public boolean hasTicket(long pos) {
         return this.containsKey(new ChunkPos(pos));
     }
