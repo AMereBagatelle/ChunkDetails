@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ChunkTicketManager.class)
 public class ChunkTicketManagerMixin {
 
-    @Inject(method = "Lnet/minecraft/server/world/ChunkTicketManager;addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
+    @Inject(method = "addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
     public <T> void onAddTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
         if(!ChunkDetailsMain.currentlyLoadedChunks.hasTicket(position) && ChunkDetailsMain.server != null) {
             for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
