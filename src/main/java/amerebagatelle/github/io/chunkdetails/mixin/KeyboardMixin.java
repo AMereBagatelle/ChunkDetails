@@ -1,5 +1,6 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
+import amerebagatelle.github.io.chunkdetails.client.gui.ChunkLoadedListScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
@@ -20,8 +21,8 @@ public class KeyboardMixin {
     @Inject(method = "onKey", at = @At("HEAD"))
     public void onKeyPress(long window, int key, int scancode, int i, int j, CallbackInfo ci) {
         if (window == client.getWindow().getHandle()) {
-            if (key == GLFW.GLFW_KEY_Y) {
-                //client.openScreen(new ChunkLoadedListScreen());
+            if (key == GLFW.GLFW_KEY_RIGHT_ALT) {
+                client.openScreen(new ChunkLoadedListScreen());
             }
         }
     }
