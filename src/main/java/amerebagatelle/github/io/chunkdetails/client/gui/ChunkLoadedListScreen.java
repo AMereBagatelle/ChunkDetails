@@ -3,6 +3,7 @@ package amerebagatelle.github.io.chunkdetails.client.gui;
 import amerebagatelle.github.io.chunkdetails.utils.ChunkTicketList;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 public class ChunkLoadedListScreen extends Screen {
@@ -22,20 +23,20 @@ public class ChunkLoadedListScreen extends Screen {
     public void init(MinecraftClient client, int width, int height) {
         super.init(client, width, height);
         // ? Come back to these values, tweak them
-        loadedListWidget = new ChunkLoadedListWidget(this.minecraft, this.width, this.height, 40, this.height - 50, 15);
+        loadedListWidget = new ChunkLoadedListWidget(this.client, this.width, this.height, 40, this.height - 50, 15);
         this.children.add(loadedListWidget);
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
-        this.renderDirtBackground(0);
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices, 0);
         if(loadedChunks != lastLoadedChunks) {
             loadedListWidget.updateEntries(loadedChunks);
         }
         lastLoadedChunks = loadedChunks;
-        drawCenteredString(minecraft.textRenderer, "Active Chunk Tickets", width/2, 10, 16777215);
-        loadedListWidget.render(mouseX, mouseY, delta);
-        super.render(mouseX, mouseY, delta);
+        drawCenteredString(matrices, client.textRenderer, "Active Chunk Tickets", width/2, 10, 16777215);
+        loadedListWidget.render(matrices, mouseX, mouseY, delta);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class RenderHelper {
 
         GlStateManager.enableBlend();
         GlStateManager.disableTexture();
-        GlStateManager.blendFuncSeparate(GlStateManager.SrcFactor.SRC_COLOR.value, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.value, GlStateManager.SrcFactor.ONE.value, GlStateManager.DstFactor.ZERO.value);
+        GlStateManager.blendFuncSeparate(GlStateManager.SrcFactor.SRC_COLOR.field_22545, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.field_22528, GlStateManager.SrcFactor.ONE.field_22545, GlStateManager.DstFactor.ZERO.field_22528);
         RenderSystem.color3f(red, blue, green);
 
         builder.begin(7, VertexFormats.POSITION);

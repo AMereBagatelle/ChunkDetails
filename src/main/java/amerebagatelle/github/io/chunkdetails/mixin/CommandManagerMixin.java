@@ -16,7 +16,7 @@ public class CommandManagerMixin {
     @Shadow @Final private CommandDispatcher<ServerCommandSource> dispatcher;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void onInit(boolean isDedicatedServer, CallbackInfo ci) {
+    public void onInit(CommandManager.RegistrationEnvironment environment, CallbackInfo ci) {
         LogChunkDetails.register(dispatcher);
     }
 }

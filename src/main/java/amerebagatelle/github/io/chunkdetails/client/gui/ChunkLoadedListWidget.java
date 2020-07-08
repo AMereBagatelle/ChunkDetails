@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.ChunkPos;
 
 import java.util.*;
@@ -50,13 +51,13 @@ public class ChunkLoadedListWidget extends AlwaysSelectedEntryListWidget<ChunkLo
         }
 
         @Override
-        public void render(int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovering, float delta) {
-            TextRenderer renderer = ChunkLoadedListWidget.this.minecraft.textRenderer;
+        public void render(MatrixStack matrices, int index, int y, int x, int width, int height, int mouseX, int mouseY, boolean hovering, float delta) {
+            TextRenderer renderer = ChunkLoadedListWidget.this.client.textRenderer;
             // ? Another set of values that need fixing
             int drawY = y+height/2-4;
-            ChunkLoadedListWidget.this.drawString(renderer, name, x+5, drawY, 16777215);
-            ChunkLoadedListWidget.this.drawString(renderer, Integer.toString(position.x), x+55, drawY, 16777215);
-            ChunkLoadedListWidget.this.drawString(renderer, Integer.toString(position.z), x+75, drawY, 16777215);
+            ChunkLoadedListWidget.this.drawStringWithShadow(matrices, renderer, name, x+5, drawY, 16777215);
+            ChunkLoadedListWidget.this.drawStringWithShadow(matrices, renderer, Integer.toString(position.x), x+55, drawY, 16777215);
+            ChunkLoadedListWidget.this.drawStringWithShadow(matrices, renderer, Integer.toString(position.z), x+75, drawY, 16777215);
         }
 
         @Override
