@@ -33,6 +33,7 @@ public class ChunkLoadedListScreen extends Screen {
             loadedListWidget.updateEntries(loadedChunks);
         }
         lastLoadedChunks = loadedChunks;
+        drawCenteredString(minecraft.textRenderer, "Active Chunk Tickets", width/2, 10, 16777215);
         loadedListWidget.render(mouseX, mouseY, delta);
         super.render(mouseX, mouseY, delta);
     }
