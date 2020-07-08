@@ -11,6 +11,7 @@ public class ChunkLoadedListScreen extends Screen {
     // NOTE:  The screen should also be sure to never try and get a list of chunks that doesn't exist
     // NOTE:  Implement server/client handshake alongside this screen
     public static ChunkTicketList loadedChunks = new ChunkTicketList();
+    private ChunkTicketList lastLoadedChunks = new ChunkTicketList();
     public ChunkLoadedListWidget loadedListWidget;
 
     public ChunkLoadedListScreen() {
@@ -21,13 +22,23 @@ public class ChunkLoadedListScreen extends Screen {
     public void init(MinecraftClient client, int width, int height) {
         super.init(client, width, height);
         // ? Come back to these values, tweak them
-        loadedListWidget = new ChunkLoadedListWidget(client, width, height, 20, height-20, 20);
+        loadedListWidget = new ChunkLoadedListWidget(this.minecraft, this.width, this.height, 40, this.height - 50, 15);
+        this.children.add(loadedListWidget);
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
-        loadedListWidget.updateEntries(loadedChunks);
+        this.renderDirtBackground(0);
+        if(loadedChunks != lastLoadedChunks) {
+            loadedListWidget.updateEntries(loadedChunks);
+        }
+        lastLoadedChunks = loadedChunks;
         loadedListWidget.render(mouseX, mouseY, delta);
         super.render(mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }
