@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 public class Minimap {
     public static final Minimap INSTANCE = new Minimap();
     private final MinecraftClient client = MinecraftClient.getInstance();
+    public boolean isActive = false;
 
 
     public Minimap() {
