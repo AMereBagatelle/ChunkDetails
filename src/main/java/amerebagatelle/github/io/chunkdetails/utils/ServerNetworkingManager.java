@@ -1,10 +1,12 @@
 package amerebagatelle.github.io.chunkdetails.utils;
 
+import amerebagatelle.github.io.chunkdetails.command.LogChunkDetails;
 import amerebagatelle.github.io.chunkdetails.mixin.CustomPayloadC2SPacketFake;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -38,5 +40,14 @@ public class ServerNetworkingManager {
 
     public void setServer(MinecraftServer server) {
         this.server = server;
+    }
+
+    public void sendChunkLogMessage(Text message, String type) {
+        LogChunkDetails.loggingPlayerList.forEach((name, ticketType) -> {
+            ServerPlayerEntity player = server.getPlayerManager().getPlayer(name);
+            if(ticketType.equals(type) || ticketType == "all") {
+                player.sendMessage(message, false);
+            }
+        });
     }
 }

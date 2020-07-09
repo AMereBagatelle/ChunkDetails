@@ -1,7 +1,6 @@
 package amerebagatelle.github.io.chunkdetails.mixin;
 
 import amerebagatelle.github.io.chunkdetails.ChunkDetailsMain;
-import amerebagatelle.github.io.chunkdetails.command.LogChunkDetails;
 import amerebagatelle.github.io.chunkdetails.utils.Packets;
 import amerebagatelle.github.io.chunkdetails.utils.ServerNetworkingManager;
 import io.netty.buffer.Unpooled;
@@ -9,7 +8,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ChunkTicket;
 import net.minecraft.server.world.ChunkTicketManager;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.ChunkPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,14 +19,13 @@ public class ChunkTicketManagerMixin {
 
     @Inject(method = "addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
     public <T> void onAddTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
+        ChunkTicketFake<?> chunkTicketFake = (ChunkTicketFake<?>)(Object)chunkTicket;
         if(!ChunkDetailsMain.currentlyLoadedChunks.hasTicket(position) && ChunkDetailsMain.server != null) {
-            for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
-                ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendSystemMessage(new LiteralText("Added: " + chunkTicket.toString()), Util.NIL_UUID);
-            }
-            if(((ChunkTicketFake<?>)(Object)chunkTicket).getArgument() instanceof ChunkPos) {
+            ServerNetworkingManager.INSTANCE.sendChunkLogMessage(new LiteralText(chunkTicketFake.toString()), chunkTicketFake.getType().toString());
+            if(chunkTicketFake.getArgument() instanceof ChunkPos) {
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeString(chunkTicket.getType().toString());
-                buf.writeLong(((ChunkPos) ((ChunkTicketFake<?>) (Object) chunkTicket).getArgument()).toLong());
+                buf.writeLong(((ChunkPos) chunkTicketFake.getArgument()).toLong());
                 ServerNetworkingManager.INSTANCE.sendCustomPayload(Packets.CHUNK_TICKET_ADD_PACKET, buf);
             }
             ChunkDetailsMain.currentlyLoadedChunks.addTicket(position, chunkTicket.getType().toString());
@@ -37,11 +34,7 @@ public class ChunkTicketManagerMixin {
 
     @Inject(method = "removeTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at = @At("TAIL"))
     public void onRemoveTicket(long pos, ChunkTicket<?> ticket, CallbackInfo ci) {
-        if(ChunkDetailsMain.currentlyLoadedChunks.hasTicket(pos)) {
-            for (String serverPlayerEntity : LogChunkDetails.loggingPlayerList) {
-                ChunkDetailsMain.server.getPlayerManager().getPlayer(serverPlayerEntity).sendSystemMessage(new LiteralText("Removed: " + ticket.toString()), Util.NIL_UUID);
-            }
-        }
+        ServerNetworkingManager.INSTANCE.sendChunkLogMessage(new LiteralText(ticket.toString()), ((ChunkTicketFake<?>)(Object)ticket).getType().toString());
         ChunkDetailsMain.currentlyLoadedChunks.removeTicket(pos);
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeLong(pos);
