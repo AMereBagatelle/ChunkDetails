@@ -13,7 +13,7 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "InGameHudMixin",
-    "KeyboardMixin"
+    "PauseScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
