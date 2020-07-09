@@ -22,7 +22,7 @@ public class PauseScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     public void addScreenButton(CallbackInfo ci) {
-        this.addButton(new ButtonWidget(10, 10, 80, 20, new LiteralText("Chunk Details"), (onPress) -> {
+        this.addButton(new ButtonWidget(10, 10, 80, 20, "Chunk Details", (onPress) -> {
             MinecraftClient.getInstance().openScreen(new ChunkLoadedListScreen());
         }));
     }
