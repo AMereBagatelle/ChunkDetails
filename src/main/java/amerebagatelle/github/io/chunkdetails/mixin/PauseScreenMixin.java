@@ -20,6 +20,9 @@ public class PauseScreenMixin extends Screen {
         super(new LiteralText(""));
     }
 
+    /**
+     * Adds ChunkDetails screen button to the pause menu
+     */
     @Inject(method = "init", at = @At("TAIL"))
     public void addScreenButton(CallbackInfo ci) {
         this.addButton(new ButtonWidget(10, 10, 80, 20, new LiteralText("Chunk Details"), (onPress) -> {

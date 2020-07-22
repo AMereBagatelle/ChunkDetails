@@ -17,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ChunkTicketManager.class)
 public class ChunkTicketManagerMixin {
 
+    /**
+     * Sends notification of the recieved ticket to the proper clients
+     */
     @Inject(method = "addTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at=@At("HEAD"))
     public <T> void onAddTicket(long position, ChunkTicket<?> chunkTicket, CallbackInfo ci) {
         ChunkTicketFake<?> chunkTicketFake = (ChunkTicketFake<?>)(Object)chunkTicket;
@@ -32,6 +35,9 @@ public class ChunkTicketManagerMixin {
         }
     }
 
+    /**
+     * Sends notification of the removed tickets to the proper clients
+     */
     @Inject(method = "removeTicket(JLnet/minecraft/server/world/ChunkTicket;)V", at = @At("TAIL"))
     public void onRemoveTicket(long pos, ChunkTicket<?> ticket, CallbackInfo ci) {
         ServerNetworkingManager.INSTANCE.sendChunkLogMessage(new LiteralText(ticket.toString()), ((ChunkTicketFake<?>)(Object)ticket).getType().toString());

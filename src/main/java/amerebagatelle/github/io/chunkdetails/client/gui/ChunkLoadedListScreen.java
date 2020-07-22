@@ -9,10 +9,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 public class ChunkLoadedListScreen extends Screen {
-    // NOTE:  This is how the system should work:
-    // NOTE:  The screen should update every tick, and get the current list of chunks
-    // NOTE:  The screen should also be sure to never try and get a list of chunks that doesn't exist
-    // NOTE:  Implement server/client handshake alongside this screen
     public static ChunkTicketList loadedChunks = new ChunkTicketList();
     private ChunkTicketList lastLoadedChunks = new ChunkTicketList();
     public ChunkLoadedListWidget loadedListWidget;

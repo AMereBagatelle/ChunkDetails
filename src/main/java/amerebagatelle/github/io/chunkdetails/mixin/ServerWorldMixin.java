@@ -17,6 +17,9 @@ import java.util.function.BooleanSupplier;
 public class ServerWorldMixin {
     @Shadow @Final private MinecraftServer server;
 
+    /**
+     * I have no good excuse for this code... will be fixed at some point
+     */
     @Inject(method = "tick", at = @At("HEAD"))
     public void onTick(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         ServerNetworkingManager.INSTANCE.setServer(server);

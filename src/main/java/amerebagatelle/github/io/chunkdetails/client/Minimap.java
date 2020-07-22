@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
 public class Minimap {
+    //TODO
     public static final Minimap INSTANCE = new Minimap();
     private final MinecraftClient client = MinecraftClient.getInstance();
     public boolean isActive = false;

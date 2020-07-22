@@ -21,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayNetworkHandlerMixin {
     @Shadow private MinecraftClient client;
 
+    /**
+     * Takes ChunkDetails packets and passes them to ClientNetworkingManager
+     */
     @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadS2CPacket packet, CallbackInfo ci) {
         if(packet.getChannel().getNamespace() == "chunkdetails") {
@@ -29,6 +32,9 @@ public class ClientPlayNetworkHandlerMixin {
         }
     }
 
+    /**
+     * Sends a connection request to the server to see if it has ChunkDetails
+     */
     @Inject(method = "onGameJoin", at = @At("TAIL"))
     public void onConnected(GameJoinS2CPacket packet, CallbackInfo ci) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());

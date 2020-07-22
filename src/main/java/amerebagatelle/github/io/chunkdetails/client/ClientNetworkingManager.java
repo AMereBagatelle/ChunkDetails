@@ -23,6 +23,10 @@ public class ClientNetworkingManager {
         client.getNetworkHandler().sendPacket(new CustomPayloadC2SPacket(channel, buf));
     }
 
+    /**
+     * Processes all packets from the server side of the mod.
+     * @param packet Packet to process
+     */
     public void processCustomPayload(CustomPayloadS2CPacket packet) {
         Identifier channel = packet.getChannel();
         if(channel == Packets.CHUNK_TICKET_ADD_PACKET) {
@@ -32,12 +36,20 @@ public class ClientNetworkingManager {
         }
     }
 
+    /**
+     * Adds the recieved chunk ticket to our list
+     * @param buf PacketByteBuf to process
+     */
     public void onChunkTicketAdd(PacketByteBuf buf) {
         String chunkTicketType = buf.readString();
         long chunkPosPacked = buf.readLong();
         client.execute(() -> ChunkLoadedListScreen.loadedChunks.addTicket(chunkPosPacked, chunkTicketType));
     }
 
+    /**
+     * Removes the recieved chunk ticket from the list
+     * @param buf PacketByteBuf to process
+     */
     public void onChunkTicketRemove(PacketByteBuf buf) {
         long chunkPosPacked = buf.readLong();
         client.execute(() -> {
