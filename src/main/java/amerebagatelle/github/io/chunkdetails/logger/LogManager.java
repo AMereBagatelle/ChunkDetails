@@ -9,9 +9,9 @@ import java.util.UUID;
 public class LogManager {
     public static LogManager INSTANCE = new LogManager();
 
-    private static HashMap<LoggerType, ServerPlayerEntity> subscribedPlayers;
+    private final HashMap<LoggerType, ServerPlayerEntity> subscribedPlayers = new HashMap<>();
 
-    public static void logMessage(String message, LoggerType loggerType) {
+    public void logMessage(String message, LoggerType loggerType) {
         subscribedPlayers.forEach((logger, player) -> {
             if(logger == loggerType) {
                 player.sendSystemMessage(new LiteralText(message), UUID.randomUUID());
@@ -19,11 +19,11 @@ public class LogManager {
         });
     }
 
-    public static void subscribePlayer(LoggerType loggerType, ServerPlayerEntity player) {
+    public void subscribePlayer(LoggerType loggerType, ServerPlayerEntity player) {
         subscribedPlayers.put(loggerType, player);
     }
 
-    public static void unsubscribePlayer(LoggerType loggerType, ServerPlayerEntity player) {
+    public void unsubscribePlayer(LoggerType loggerType, ServerPlayerEntity player) {
         subscribedPlayers.remove(loggerType, player);
     }
 }

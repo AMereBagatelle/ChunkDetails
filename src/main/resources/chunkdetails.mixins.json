@@ -4,11 +4,13 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ChunkTicketFake",
+    "ChunkTicketLoggerMixin",
     "ChunkTicketManagerMixin",
     "CommandManagerMixin",
     "CustomPayloadC2SPacketFake",
     "ServerPlayNetworkHandlerMixin",
-    "ServerWorldMixin"
+    "ServerWorldMixin",
+    "fake.ChunkTicketFake"
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",
