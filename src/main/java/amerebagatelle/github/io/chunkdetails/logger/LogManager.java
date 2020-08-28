@@ -1,7 +1,7 @@
 package amerebagatelle.github.io.chunkdetails.logger;
 
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,10 +14,11 @@ public class LogManager {
 
     private final HashMap<LoggerType, ServerPlayerEntity> subscribedPlayers = new HashMap<>();
 
-    public void logMessage(String message, LoggerType loggerType) {
+    public void logMessage(Text message, LoggerType loggerType) {
+        Text finalMessage = message.copy().append(" Logger: " + loggerType.getName());
         subscribedPlayers.forEach((logger, player) -> {
             if(logger == loggerType) {
-                player.sendSystemMessage(new LiteralText(message), UUID.randomUUID());
+                player.sendSystemMessage(finalMessage, UUID.randomUUID());
             }
         });
     }
