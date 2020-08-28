@@ -3,19 +3,11 @@
   "package": "amerebagatelle.github.io.chunkdetails.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ChunkTicketFake",
     "ChunkTicketLoggerMixin",
-    "ChunkTicketManagerMixin",
     "CommandManagerMixin",
-    "CustomPayloadC2SPacketFake",
-    "ServerPlayNetworkHandlerMixin",
-    "ServerWorldMixin",
     "fake.ChunkTicketFake"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "InGameHudMixin",
-    "PauseScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

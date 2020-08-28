@@ -4,7 +4,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LogManager {
     public static LogManager INSTANCE = new LogManager();
@@ -25,5 +28,30 @@ public class LogManager {
 
     public void unsubscribePlayer(LoggerType loggerType, ServerPlayerEntity player) {
         subscribedPlayers.remove(loggerType, player);
+    }
+
+    public boolean isPlayerSubscribed(LoggerType loggerType, ServerPlayerEntity playerEntity) {
+        AtomicBoolean value = new AtomicBoolean(false);
+        subscribedPlayers.forEach((type, player) -> {
+            if(type == loggerType && player == playerEntity) {
+                value.set(true);
+            }
+        });
+        return value.get();
+    }
+
+    public Set<String> getLoggerTypes() {
+        Set<String> types = new HashSet<>();
+        for (LoggerType enumConstant : LoggerType.class.getEnumConstants()) {
+            types.add(enumConstant.getName());
+        }
+        return types;
+    }
+
+    public LoggerType getLoggerType(String name) {
+        for (LoggerType loggerType : LoggerType.class.getEnumConstants()) {
+            if(loggerType.getName().equals(name)) return loggerType;
+        }
+        return null;
     }
 }

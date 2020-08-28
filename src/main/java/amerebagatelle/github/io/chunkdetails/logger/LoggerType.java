@@ -15,4 +15,6 @@ public enum LoggerType {
     public String getName() {
         return name;
     }
+
+
 }
