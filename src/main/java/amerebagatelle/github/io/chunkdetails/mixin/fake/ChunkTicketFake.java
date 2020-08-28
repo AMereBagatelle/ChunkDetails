@@ -12,4 +12,7 @@ public interface ChunkTicketFake<T> {
 
     @Accessor
     ChunkTicketType<T> getType();
+
+    @Accessor
+    int getLevel();
 }

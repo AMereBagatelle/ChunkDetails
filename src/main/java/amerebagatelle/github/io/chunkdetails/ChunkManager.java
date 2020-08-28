@@ -15,16 +15,20 @@ public class ChunkManager {
     public void addTicket(ChunkTicketFake<?> ticket) {
         if(ticket.getArgument() instanceof ChunkPos) {
             loadedChunks.putIfAbsent(((ChunkPos) ticket.getArgument()).toLong(), ticket);
-            LogManager.INSTANCE.logMessage(ticket.toString(), LoggerType.CHUNK_LOADED);
+            LogManager.INSTANCE.logMessage(chunkTicketToString(ticket), LoggerType.CHUNK_LOADED);
         }
     }
 
     public void removeTicket(long pos, ChunkTicketFake<?> ticket) {
         loadedChunks.remove(pos);
-        LogManager.INSTANCE.logMessage(ticket.toString(), LoggerType.CHUNK_UNLOADED);
+        LogManager.INSTANCE.logMessage(chunkTicketToString(ticket), LoggerType.CHUNK_UNLOADED);
     }
 
     public boolean hasTicketAtPos(long pos) {
         return loadedChunks.containsKey(pos);
+    }
+
+    private String chunkTicketToString(ChunkTicketFake<?> ticket) {
+        return String.format("%s ticket at chunk %s with %s priority", ticket.getType(), ticket.getArgument(), ticket.getLevel());
     }
 }
